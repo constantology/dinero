@@ -1,0 +1,13 @@
+.DS_Store
+.idea
+
+node_modules
+npm-debug.log
+
+*.bak*
+*.local*
+
+.nodemonignore
+*.sh
+
+__ignore__

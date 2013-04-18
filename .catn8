@@ -1,0 +1,18 @@
+{
+	"source"    : {
+		"dir"   : "./src",
+		"files" : [
+					"vars", "ua", "util", "lib",
+					"expose", "ElementCollection", "standardise", "attr",
+					"cls", "cls.shim",
+					"dataset", "dataset.shim",
+					"event", "find", "insert", "style",
+					"init"
+				  ]
+	},
+	"target"    : {
+		"dir"   : "{pwd}",
+		"min"   : true
+	},
+	"type"      : "application/javascript"
+}
