@@ -294,7 +294,6 @@
 		} ).split( re_caps ).join( '-' ).toLowerCase();
 	}
 
-	function is_arr( v )  { return util.ntype( v ) == 'array'; }
 	function is_bool( v ) { return typeof v == 'boolean'; }
 	function is_dom( v )  { return re_dom.test( util.type( v ) ); }
 	function is_fun( v )  { return typeof v == 'function'; }
@@ -338,7 +337,7 @@
 			case 'array'            : val = val.filter( is_dom );                        break;
 			default                 : val = [];
 		}
-		return ElementCollection.apply( Object.create( ElementCollection.prototype ), is_arr( val ) ? val : [val] );
+		return ElementCollection.apply( Object.create( ElementCollection.prototype ), Array.isArray( val ) ? val : [val] );
 	}
 
 	function ready( fn ) {
@@ -654,7 +653,7 @@
 		util.def( this, fn, function() {
 			var val = this[__proto__][__proto__][fn].apply( this, arguments );
 
-			return is_arr( val ) ? __lib__( val ) : this;
+			return Array.isArray( val ) ? __lib__( val ) : this;
 		}, 'cw', true );
 	}, __lib__.fn );
 
@@ -687,11 +686,12 @@
 				if ( key in expando )
 					key = expando[key];
 
-				switch ( util.ntype( val ) ) {
-					case 'undefined' : return get( this[0], key );
-					case 'null'      : this.each( rem, key ); break;
-					default          : this.each( set.bind( null, key, val ) );
-				}
+				if ( val === UNDEF )
+					return get( this[0], key );
+				if ( val === null )
+					this.each( rem, key );
+				else
+					this.each( set.bind( null, key, val ) );
 			}
 
 			return this;
@@ -858,18 +858,19 @@
 
 			var ds = ua.dataset, el = this[0];
 
-			switch ( util.ntype( key ) ) {
+			switch ( typeof key ) {
 				case 'string'    :
-					switch ( util.ntype( val ) ) {
-						case 'null'      : delete el[ ds][dataProp( key )]; break;
-						case 'undefined' : return dataValGet( el[ds][dataProp( key )] );
-						default          : el[ds][dataProp( key )] = dataValSet( val );
-					}
+					if ( val === UNDEF )
+						return dataValGet( el[ds][dataProp( key )] );
+					if ( val === null )
+						delete el[ds][dataProp( key )];
+					else
+						el[ds][dataProp( key )] = dataValSet( val );
 					break;
 				case 'object'    :
-					Object.keys( key ).map( function( k ) {
-						__lib__( el ).data( k, key[k] );
-					}, this );
+					Object.keys( key ).forEach( function( k ) {
+						this.data( k, key[k] );
+					}, __lib__( el ) );
 					break;
 				case 'undefined' : return Object.keys( el[ds] ).reduce( to_obj, { data : el[ds], val : util.obj() } ).val;
 			}
@@ -894,18 +895,19 @@
 
 			var el = this[0];
 
-			switch ( util.ntype( key ) ) {
+			switch ( typeof key ) {
 				case 'string'    :
-					switch ( util.ntype( val ) ) {
-						case 'null'      : el.removeAttribute( dataAttr( key ) ); break;
-						case 'undefined' : return dataValGet( el.getAttribute( dataAttr( key ) ) );
-						default          : el.setAttribute( dataAttr( key ), dataValSet( val ) );
-					}
+					if ( val === UNDEF )
+						return dataValGet( el.getAttribute( dataAttr( key ) ) );
+					if ( val === null )
+						el.removeAttribute( dataAttr( key ) );
+					else
+						el.setAttribute( dataAttr( key ), dataValSet( val ) );
 					break;
 				case 'object'    :
-					Object.keys( key ).map( function( k ) {
-						__lib__( el ).data( k, key[k] );
-					}, this );
+					Object.keys( key ).forEach( function( k ) {
+						this.data( k, key[k] );
+					}, __lib__( el ) );
 					break;
 				case 'undefined' : return Array.coerce( el.attributes ).reduce( to_obj, util.obj() );
 			}
@@ -1227,10 +1229,13 @@
 				else {
 					key = key in style ? key : get_vendor( key );
 
-					if ( key ) switch ( util.ntype( val ) ) {
-						case 'undefined' : return get( this.style(), key );
-						case 'null'      : this.each( rem, key ); break;
-						default          : this.each( set.bind( null, key, val ) );
+					if ( key ) {
+						if ( val === UNDEF )
+							return get( this.style(), key );
+						if ( val === null )
+							this.each( rem, key );
+						else
+							this.each( set.bind( null, key, val ) );
 					}
 				}
 

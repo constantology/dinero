@@ -9,11 +9,12 @@
 				if ( key in expando )
 					key = expando[key];
 
-				switch ( util.ntype( val ) ) {
-					case 'undefined' : return get( this[0], key );
-					case 'null'      : this.each( rem, key ); break;
-					default          : this.each( set.bind( null, key, val ) );
-				}
+				if ( val === UNDEF )
+					return get( this[0], key );
+				if ( val === null )
+					this.each( rem, key );
+				else
+					this.each( set.bind( null, key, val ) );
 			}
 
 			return this;

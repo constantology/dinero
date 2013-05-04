@@ -13,7 +13,7 @@
 			case 'array'            : val = val.filter( is_dom );                        break;
 			default                 : val = [];
 		}
-		return ElementCollection.apply( Object.create( ElementCollection.prototype ), is_arr( val ) ? val : [val] );
+		return ElementCollection.apply( Object.create( ElementCollection.prototype ), Array.isArray( val ) ? val : [val] );
 	}
 
 	function ready( fn ) {

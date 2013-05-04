@@ -10,18 +10,19 @@
 
 			var el = this[0];
 
-			switch ( util.ntype( key ) ) {
+			switch ( typeof key ) {
 				case 'string'    :
-					switch ( util.ntype( val ) ) {
-						case 'null'      : el.removeAttribute( dataAttr( key ) ); break;
-						case 'undefined' : return dataValGet( el.getAttribute( dataAttr( key ) ) );
-						default          : el.setAttribute( dataAttr( key ), dataValSet( val ) );
-					}
+					if ( val === UNDEF )
+						return dataValGet( el.getAttribute( dataAttr( key ) ) );
+					if ( val === null )
+						el.removeAttribute( dataAttr( key ) );
+					else
+						el.setAttribute( dataAttr( key ), dataValSet( val ) );
 					break;
 				case 'object'    :
-					Object.keys( key ).map( function( k ) {
-						__lib__( el ).data( k, key[k] );
-					}, this );
+					Object.keys( key ).forEach( function( k ) {
+						this.data( k, key[k] );
+					}, __lib__( el ) );
 					break;
 				case 'undefined' : return Array.coerce( el.attributes ).reduce( to_obj, util.obj() );
 			}

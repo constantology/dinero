@@ -64,7 +64,6 @@
 		} ).split( re_caps ).join( '-' ).toLowerCase();
 	}
 
-	function is_arr( v )  { return util.ntype( v ) == 'array'; }
 	function is_bool( v ) { return typeof v == 'boolean'; }
 	function is_dom( v )  { return re_dom.test( util.type( v ) ); }
 	function is_fun( v )  { return typeof v == 'function'; }

@@ -45,10 +45,13 @@
 				else {
 					key = key in style ? key : get_vendor( key );
 
-					if ( key ) switch ( util.ntype( val ) ) {
-						case 'undefined' : return get( this.style(), key );
-						case 'null'      : this.each( rem, key ); break;
-						default          : this.each( set.bind( null, key, val ) );
+					if ( key ) {
+						if ( val === UNDEF )
+							return get( this.style(), key );
+						if ( val === null )
+							this.each( rem, key );
+						else
+							this.each( set.bind( null, key, val ) );
 					}
 				}
 

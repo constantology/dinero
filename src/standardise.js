@@ -9,7 +9,7 @@
 		util.def( this, fn, function() {
 			var val = this[__proto__][__proto__][fn].apply( this, arguments );
 
-			return is_arr( val ) ? __lib__( val ) : this;
+			return Array.isArray( val ) ? __lib__( val ) : this;
 		}, 'cw', true );
 	}, __lib__.fn );
 

@@ -10,18 +10,19 @@
 
 			var ds = ua.dataset, el = this[0];
 
-			switch ( util.ntype( key ) ) {
+			switch ( typeof key ) {
 				case 'string'    :
-					switch ( util.ntype( val ) ) {
-						case 'null'      : delete el[ ds][dataProp( key )]; break;
-						case 'undefined' : return dataValGet( el[ds][dataProp( key )] );
-						default          : el[ds][dataProp( key )] = dataValSet( val );
-					}
+					if ( val === UNDEF )
+						return dataValGet( el[ds][dataProp( key )] );
+					if ( val === null )
+						delete el[ds][dataProp( key )];
+					else
+						el[ds][dataProp( key )] = dataValSet( val );
 					break;
 				case 'object'    :
-					Object.keys( key ).map( function( k ) {
-						__lib__( el ).data( k, key[k] );
-					}, this );
+					Object.keys( key ).forEach( function( k ) {
+						this.data( k, key[k] );
+					}, __lib__( el ) );
 					break;
 				case 'undefined' : return Object.keys( el[ds] ).reduce( to_obj, { data : el[ds], val : util.obj() } ).val;
 			}
