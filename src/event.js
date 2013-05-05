@@ -67,7 +67,7 @@
 		function observe( evt, slc, fn ) {
 			var args = Array.coerce( arguments );
 
-			if ( args.length === 2 && is_fun( args[1] ) )
+			if ( args.length === 2 && typeof args[1] == 'function' )
 				args.splice( 1, 0, '*' );
 
 			this.each( function( el ) {

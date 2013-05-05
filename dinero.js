@@ -294,9 +294,7 @@
 		} ).split( re_caps ).join( '-' ).toLowerCase();
 	}
 
-	function is_bool( v ) { return typeof v == 'boolean'; }
 	function is_dom( v )  { return re_dom.test( util.type( v ) ); }
-	function is_fun( v )  { return typeof v == 'function'; }
 	function is_els( v )  { return util.type( v )  == 'element[]'; }
 	function is_obj( v )  { return util.ntype( v ) == 'object'; }
 	function is_tru( v )  { return v === true; }
@@ -722,7 +720,7 @@
 		function set( prop, val, el ) {
 			if ( prop in expando ) {
 
-				if ( is_bool( el[prop] ) ) {
+				if ( typeof el[prop] == 'boolean' ) {
 					el[prop] = val = Boolean.coerce( val );
 
 					if ( el[prop] !== val ) {
@@ -989,7 +987,7 @@
 		function observe( evt, slc, fn ) {
 			var args = Array.coerce( arguments );
 
-			if ( args.length === 2 && is_fun( args[1] ) )
+			if ( args.length === 2 && typeof args[1] == 'function' )
 				args.splice( 1, 0, '*' );
 
 			this.each( function( el ) {

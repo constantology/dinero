@@ -64,9 +64,7 @@
 		} ).split( re_caps ).join( '-' ).toLowerCase();
 	}
 
-	function is_bool( v ) { return typeof v == 'boolean'; }
 	function is_dom( v )  { return re_dom.test( util.type( v ) ); }
-	function is_fun( v )  { return typeof v == 'function'; }
 	function is_els( v )  { return util.type( v )  == 'element[]'; }
 	function is_obj( v )  { return util.ntype( v ) == 'object'; }
 	function is_tru( v )  { return v === true; }

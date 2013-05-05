@@ -45,7 +45,7 @@
 		function set( prop, val, el ) {
 			if ( prop in expando ) {
 
-				if ( is_bool( el[prop] ) ) {
+				if ( typeof el[prop] == 'boolean' ) {
 					el[prop] = val = Boolean.coerce( val );
 
 					if ( el[prop] !== val ) {
