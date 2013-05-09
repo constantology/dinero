@@ -69,7 +69,7 @@
 					+ 'axis background bgColor border cellPadding cellSpacing ch chOff challenge charset checked className '
 					+ 'clear code codeBase codeType colSpan cols compact complete content controls coords crossOrigin '
 					+ 'dateTime declare default defaultChecked defaultMuted defaultPlaybackRate defaultSelected defaultValue '
-					+ 'defer dir dirName disabled download draggable event formNoValidate formTarget frame frameBorder '
+					+ 'defer dir dirName disabled download draggable event files formNoValidate formTarget frame frameBorder '
 					+ 'headers height hidden high hreflang hspace htmlFor httpEquiv id incremental indeterminate innerHTML '
 					+ 'innerText isMap keytype label lang length link longDesc loop low marginHeight marginWidth max '
 					+ 'maxLength media mediaGroup min multiple muted name noHref noResize noShade noValidate noWrap nodeType '

@@ -544,7 +544,7 @@
 		replace     : make_safe( function( el ) {
 			el = __lib__( el )[0];
 
-			!el || el.parentNode.replaceChild( this[0], el );
+			!el || el.parentElement.replaceChild( this[0], el );
 
 			return this;
 		}, 'parentNode' ),
@@ -627,8 +627,12 @@
 			return Array.coerce( this, start, end );
 		},
 		val         : function( value ) {
-			if ( value === UNDEF )
+			if ( value === UNDEF ) {
+				if ( this.attr( 'type' ) == 'file' )
+					return this.attr( 'files' ) || this.attr( 'value' );
+
 				return this.attr( 'value' );
+			}
 
 			this.attr( 'value', value );
 
@@ -744,7 +748,7 @@
 					+ 'axis background bgColor border cellPadding cellSpacing ch chOff challenge charset checked className '
 					+ 'clear code codeBase codeType colSpan cols compact complete content controls coords crossOrigin '
 					+ 'dateTime declare default defaultChecked defaultMuted defaultPlaybackRate defaultSelected defaultValue '
-					+ 'defer dir dirName disabled download draggable event formNoValidate formTarget frame frameBorder '
+					+ 'defer dir dirName disabled download draggable event files formNoValidate formTarget frame frameBorder '
 					+ 'headers height hidden high hreflang hspace htmlFor httpEquiv id incremental indeterminate innerHTML '
 					+ 'innerText isMap keytype label lang length link longDesc loop low marginHeight marginWidth max '
 					+ 'maxLength media mediaGroup min multiple muted name noHref noResize noShade noValidate noWrap nodeType '
@@ -1161,17 +1165,17 @@
 			insertAfter  : insert( function( el_ref ) {
 				return this.each( function( el ) {
 					this.parentElement.insertBefore( el, this.nextSibling );
-				}, el_ref );
+				}, el_ref[0] || el_ref );
 			}, 'nextSibling' ),
 			insertBefore : insert( function( el_ref ) {
 				return this.each( function( el ) {
 					this.parentElement.insertBefore( el, this );
-				}, el_ref );
+				}, el_ref[0] || el_ref );
 			}, 'parentElement' ),
 			prependTo    : insert( function( el_ref ) {
 				return this.reverse().each( function( el ) { // reverse ensures order is maintained
 					this.firstChild ? this.insertBefore( el, this.firstChild ) : this.appendChild( el );
-				}, el_ref ).reverse(); // reverse again to maintain the expected return result
+				}, el_ref[0] || el_ref ).reverse(); // reverse again to maintain the expected return result
 			} )
 		};
 	}(), 'cw' );

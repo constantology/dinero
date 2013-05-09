@@ -162,7 +162,7 @@
 		replace     : make_safe( function( el ) {
 			el = __lib__( el )[0];
 
-			!el || el.parentNode.replaceChild( this[0], el );
+			!el || el.parentElement.replaceChild( this[0], el );
 
 			return this;
 		}, 'parentNode' ),
@@ -245,8 +245,12 @@
 			return Array.coerce( this, start, end );
 		},
 		val         : function( value ) {
-			if ( value === UNDEF )
+			if ( value === UNDEF ) {
+				if ( this.attr( 'type' ) == 'file' )
+					return this.attr( 'files' ) || this.attr( 'value' );
+
 				return this.attr( 'value' );
+			}
 
 			this.attr( 'value', value );
 
