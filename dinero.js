@@ -88,6 +88,7 @@
 			o.android    = test( /android/ );
 			o.ipad       = test( /ipad/ );
 			o.iphone     = test( /iphone|ipod/ );
+			o.ios        = o.iphone || o.ipad;
 			o.msphone    = test( /windows phone|ie mobile/ );
 			o.nokia      = test( /nokia/ );
 			o.desktop    = !o.android && !o.ipad && !o.iphone && !o.msphone && !o.nokia;
@@ -501,6 +502,9 @@
 
 			return this;
 		},
+		clone       : make_safe( function( el ) { // todo : this not working!???
+			return __lib__( this.invoke( 'cloneNode', true ) );
+		}, 'cloneNode' ),
 		contains    : make_safe( function( el ) { // todo : this not working!???
 			return this.invoke( 'contains', is_els( el ) ? el[0] : el ).some( is_tru );
 		}, 'contains' ),
@@ -988,7 +992,8 @@
 			return this;
 		}
 
-		function observe( evt, slc, fn ) {
+// todo: orientationchange not working on android
+		function observe( evt, slc, fn, bubble ) {
 			var args = Array.coerce( arguments );
 
 			if ( args.length === 2 && typeof args[1] == 'function' )
@@ -999,7 +1004,7 @@
 				var cb = callback.bind.apply( callback, args );
 				args.push( cb );
 
-				el.addEventListener( ua.event[evt] || evt, cb, true );
+				el.addEventListener( ua.event[evt] || evt, cb, !bubble );
 
 				cache.push( args.slice( 0 ) );
 

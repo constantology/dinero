@@ -119,6 +119,9 @@
 
 			return this;
 		},
+		clone       : make_safe( function( el ) { // todo : this not working!???
+			return __lib__( this.invoke( 'cloneNode', true ) );
+		}, 'cloneNode' ),
 		contains    : make_safe( function( el ) { // todo : this not working!???
 			return this.invoke( 'contains', is_els( el ) ? el[0] : el ).some( is_tru );
 		}, 'contains' ),

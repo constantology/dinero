@@ -66,6 +66,7 @@
 			o.android    = test( /android/ );
 			o.ipad       = test( /ipad/ );
 			o.iphone     = test( /iphone|ipod/ );
+			o.ios        = o.iphone || o.ipad;
 			o.msphone    = test( /windows phone|ie mobile/ );
 			o.nokia      = test( /nokia/ );
 			o.desktop    = !o.android && !o.ipad && !o.iphone && !o.msphone && !o.nokia;

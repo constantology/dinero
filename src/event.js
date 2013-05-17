@@ -64,7 +64,8 @@
 			return this;
 		}
 
-		function observe( evt, slc, fn ) {
+// todo: orientationchange not working on android
+		function observe( evt, slc, fn, bubble ) {
 			var args = Array.coerce( arguments );
 
 			if ( args.length === 2 && typeof args[1] == 'function' )
@@ -75,7 +76,7 @@
 				var cb = callback.bind.apply( callback, args );
 				args.push( cb );
 
-				el.addEventListener( ua.event[evt] || evt, cb, true );
+				el.addEventListener( ua.event[evt] || evt, cb, !bubble );
 
 				cache.push( args.slice( 0 ) );
 
